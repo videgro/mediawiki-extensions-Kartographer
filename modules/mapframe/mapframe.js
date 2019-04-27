@@ -58,7 +58,8 @@ module.exports = ( function ( $, mw, util, kartobox, router ) {
 			lang: $el.data( 'lang' ) || util.getDefaultLanguage(),
 			style: $el.data( 'style' ),
 			overlays: $el.data( 'overlays' ) || [],
-			captionText: captionText
+			captionText: captionText,
+			gpx: $el.data( 'gpx' )
 		};
 	}
 
@@ -96,7 +97,8 @@ module.exports = ( function ( $, mw, util, kartobox, router ) {
 					fullScreenRoute: '/map/' + index,
 					allowFullScreen: true,
 					dataGroups: data.overlays,
-					captionText: data.captionText
+					captionText: data.captionText,
+					gpx: data.gpx
 				} );
 
 				$container.removeAttr( 'href' );

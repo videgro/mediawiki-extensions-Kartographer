@@ -107,6 +107,8 @@ module.Map = ( function ( mw, util, OpenFullScreenControl, dataLayerOpts, ScaleC
 	}
 
 	KartographerMap = L.Map.extend( {
+		gpx: null,
+                
 		/**
 		 * @constructor
 		 * @param {Object} options **Configuration and options:**
@@ -298,6 +300,13 @@ module.Map = ( function ( mw, util, OpenFullScreenControl, dataLayerOpts, ScaleC
 					'kartographerisready' );
 			}
 
+			this.gpx=options.gpx;
+			if (typeof options.gpx !== 'undefined'){
+			 var gpxLayer=map.addGPXLayer("GPX",options.gpx).on('ready', function() {
+                             map.fitBounds(gpxLayer.getBounds());
+                         });
+		        }
+
 			if ( this.parentMap ) {
 				$.each( this.parentMap.dataLayers, function ( groupId, layer ) {
 					var newLayer = map.addGeoJSONLayer( groupId, layer.getGeoJSON(), layer.options );
@@ -306,6 +315,7 @@ module.Map = ( function ( mw, util, OpenFullScreenControl, dataLayerOpts, ScaleC
 				ready();
 				return;
 			}
+
 
 			this.addDataGroups( options.dataGroups ).then( function () {
 				if ( typeof options.data === 'object' ) {
@@ -461,6 +471,22 @@ module.Map = ( function ( mw, util, OpenFullScreenControl, dataLayerOpts, ScaleC
 			}
 		},
 
+                addGPXLayer: function ( groupName, gpxData ) {
+                        var layer;
+                        try {
+                                layer = omnivore.gpx(gpxData).addTo(this);
+				layer.getAttribution = function () {
+                                        return this.options.attribution;
+                                };
+                                this.attributionControl.addAttribution( layer.getAttribution() );
+                                //this.dataLayers[ groupName ] = layer;
+				return layer;
+                        } catch ( e ) {
+                                mw.log( e );
+                        }
+                },
+
+
 		/**
 		 * Opens the map in a full screen dialog.
 		 *
@@ -498,7 +524,8 @@ module.Map = ( function ( mw, util, OpenFullScreenControl, dataLayerOpts, ScaleC
 						fullscreen: true,
 						captionText: this.captionText,
 						fullScreenRoute: this.fullScreenRoute,
-						parentMap: this
+						parentMap: this,
+						gpx: this.gpx
 					} );
 					// resets the right initial position silently afterwards.
 					map.initView(

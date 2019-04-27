@@ -77,7 +77,8 @@
 		"mapbox": {
 			"scripts": [
 				"lib/external/mapbox/mapbox-lib.js",
-				"lib/external/mapbox/mapbox.i18n.js"
+				"lib/external/mapbox/mapbox.i18n.js",
+				"lib/external/leaflet-omnivore.min.js"
 			],
 			"styles": [
 				"lib/external/mapbox/style.css",

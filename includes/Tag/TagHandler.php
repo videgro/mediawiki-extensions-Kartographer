@@ -78,6 +78,9 @@ abstract class TagHandler {
 	/** @var stdClass */
 	protected $markerProperties;
 
+	/** @var string */
+	protected $gpx;
+
 	/**
 	 * @return stdClass[]
 	 */
@@ -171,6 +174,7 @@ abstract class TagHandler {
 		$this->zoom = $this->getInt( 'zoom', null );
 		$regexp = '/^(' . implode( '|', $wgKartographerStyles ) . ')$/';
 		$this->mapStyle = $this->getText( 'mapstyle', $wgKartographerDfltStyle, $regexp );
+		$this->gpx = $this->getText( 'gpx', null );
 
 		$defaultLangCode = $wgKartographerUsePageLanguage ? $this->getLanguage()->getCode() : 'local';
 		// Language code specified by the user (null if none)

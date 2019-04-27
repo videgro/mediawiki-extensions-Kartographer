@@ -128,6 +128,7 @@ class MapFrame extends TagHandler {
 					'data-style' => $this->mapStyle,
 					'data-width' => $this->width,
 					'data-height' => $this->height,
+					'data-gpx' =>  $this->parser->replaceVariables( $this->gpx),
 				];
 				if ( $this->zoom !== null ) {
 					$staticZoom = $this->zoom;
