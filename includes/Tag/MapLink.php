@@ -38,7 +38,8 @@ class MapLink extends TagHandler {
 			'data-mw' => 'interface',
 			'data-style' => $this->mapStyle,
 			'href' => SpecialMap::link( $this->lat, $this->lon, $this->zoom, $this->resolvedLangCode )
-				->getLocalURL()
+				->getLocalURL(),
+			'data-gpx' => $this->parser->replaceVariables($this->gpx),
 		];
 
 		if ( $this->zoom !== null ) {
